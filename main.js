@@ -12,6 +12,10 @@ function calculate(btnValue) {
         try {
             blinkDisplay();
             output = evaluate(allReplace(output, {'÷': '/', 'x': '*', '%': '/100'}));
+            output = addCommas(output);
+
+
+            display.scrollLeft = 0;
         } catch (error) {
             blinkDisplay();
             handleCalculationError(error);
@@ -30,6 +34,11 @@ function calculate(btnValue) {
 
     display.value = output;
 
+    if(btnValue !== "="){
+        display.scrollLeft = display.scrollWidth;
+    }
+
+
     if (btnValue === "=" || output === "Syntax Error") {
         output = "";
     }
@@ -37,13 +46,13 @@ function calculate(btnValue) {
 }
 
 function blinkDisplay() {
-    const blinkClass = 'blink'; // Define the CSS class for blinking
-    display.classList.add(blinkClass); // Add the class
+    const blinkClass = 'blink';
+    display.classList.add(blinkClass);
 
-    // Remove the class after a short delay
+
     setTimeout(() => {
         display.classList.remove(blinkClass);
-    }, 500); // Adjust the delay as needed (500 milliseconds in this example)
+    }, 500); 
 }
 
 function evaluate(expression) {
@@ -73,3 +82,38 @@ function allReplace(str, obj) {
 buttons.forEach(button => {
     button.addEventListener("click", (e) => calculate(e.target.dataset.value));
 });
+
+function addCommas(num){
+
+    num = num.toString();
+
+    var wholeNum = "", decimalNum = "",
+    dot = num.indexOf(".");
+
+    if (dot != -1){
+        wholeNum = num.substring(0, dot);
+        decimalNum = num.substring(dot);
+    } else {
+        wholeNum = num;
+    }
+
+    if(wholeNum.length > 3){
+        var temp = "", j = 0;
+
+        for(var i = wholeNum.length-1; i >= 0; i--){
+            temp = wholeNum[i] + temp;
+            j++;
+
+            if(j % 3 === 0 && i !== 0){
+                temp = "," + temp;
+            }
+
+        }
+        wholeNum = temp;
+
+    }
+
+    num = wholeNum + decimalNum;
+    return num;
+
+}
