@@ -11,7 +11,7 @@ function calculate(btnValue) {
 
         try {
             blinkDisplay();
-            output = safeEval(allReplace(output, {'÷': '/', 'x': '*', '%': '/100'}));
+            output = evaluate(allReplace(output, {'÷': '/', 'x': '*', '%': '/100'}));
         } catch (error) {
             blinkDisplay();
             handleCalculationError(error);
@@ -46,7 +46,7 @@ function blinkDisplay() {
     }, 500); // Adjust the delay as needed (500 milliseconds in this example)
 }
 
-function safeEval(expression) {
+function evaluate(expression) {
     return new Function('return ' + expression)();
 }
 
