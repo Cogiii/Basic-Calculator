@@ -12,7 +12,6 @@ function calculate(btnValue) {
         try {
             blinkDisplay();
             output = evaluate(allReplace(output, {'÷': '/', 'x': '*', '%': '/100'}));
-            output = addCommas(output);
 
 
             display.scrollLeft = 0;
